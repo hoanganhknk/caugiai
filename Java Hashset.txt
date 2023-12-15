@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int t = sc.nextInt();
+        String[] left = new String[t];
+        String[] right = new String[t];
+
+        for (int i = 0; i < t; i++) {
+            left[i] = sc.next();
+            right[i] = sc.next();
+        }
+        Set<String> temp = new HashSet<>();
+        int count = 0;
+        for (int i = 0; i < t; i++) {
+            if (!temp.contains(left[i] + " " + right[i])) {
+                temp.add(left[i] + " " + right[i]);
+                count++;
+            }
+            System.out.println(count);
+        }
+    }
+}

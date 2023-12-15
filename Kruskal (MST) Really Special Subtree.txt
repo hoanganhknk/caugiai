@@ -1,0 +1,87 @@
+import java.io.*;
+import java.math.*;
+import java.security.*;
+import java.text.*;
+import java.util.*;
+import java.util.concurrent.*;
+import java.util.function.*;
+import java.util.regex.*;
+import java.util.stream.*;
+import static java.util.stream.Collectors.joining;
+import static java.util.stream.Collectors.toList;
+
+class Result {
+
+    public static int root(int i, int[] a) {
+        while (i != a[a[i]]) {
+            i = a[a[i]];
+        }
+        return i;
+    }
+
+    public static int kruskals(int gNodes, List<Integer> gFrom, List<Integer> gTo, List<Integer> gWeight) {
+        PriorityQueue<int[]> check = new PriorityQueue<>((a, b) -> {
+
+            return Integer.compare(a[2], b[2]);
+        });
+        int ans = 0;
+        int[] a = new int[gNodes];
+        for (int i = 0; i < gNodes; i++) {
+            a[i] = i;
+        }
+
+        for (int i = 0; i < gFrom.size(); i++) {
+            int[] u = new int[]{gFrom.get(i), gTo.get(i), gWeight.get(i)};
+            check.add(u);
+        }
+
+        for (int i = 0; i < gNodes - 1; i++) {
+            while(root(check.peek()[0] - 1, a) == root(check.peek()[1] - 1, a)) {
+                check.poll();
+            }
+            ans += check.peek()[2];
+            a[root(check.peek()[0] - 1, a)] = check.peek()[1] - 1;
+            check.poll();
+        }
+
+        return ans;
+    }
+
+}
+
+public class Solution {
+    public static void main(String[] args) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(System.getenv("OUTPUT_PATH")));
+
+        String[] gNodesEdges = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+        int gNodes = Integer.parseInt(gNodesEdges[0]);
+        int gEdges = Integer.parseInt(gNodesEdges[1]);
+
+        List<Integer> gFrom = new ArrayList<>();
+        List<Integer> gTo = new ArrayList<>();
+        List<Integer> gWeight = new ArrayList<>();
+
+        IntStream.range(0, gEdges).forEach(i -> {
+            try {
+                String[] gFromToWeight = bufferedReader.readLine().replaceAll("\\s+$", "").split(" ");
+
+                gFrom.add(Integer.parseInt(gFromToWeight[0]));
+                gTo.add(Integer.parseInt(gFromToWeight[1]));
+                gWeight.add(Integer.parseInt(gFromToWeight[2]));
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+
+        int res = Result.kruskals(gNodes, gFrom, gTo, gWeight);
+
+        // Write your code here.
+        bufferedWriter.write(String.valueOf(res));
+        bufferedWriter.newLine();
+
+        bufferedReader.close();
+        bufferedWriter.close();
+    }
+}

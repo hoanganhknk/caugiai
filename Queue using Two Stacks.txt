@@ -1,0 +1,41 @@
+import java.io.*;
+import java.util.*;
+import java.text.*;
+import java.math.*;
+import java.util.regex.*;
+
+public class Solution {
+
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int q = in.nextInt();
+        Stack<Integer> st1 = new Stack<Integer>();
+        Stack<Integer> st2 = new Stack<Integer>();
+        for(int i = 0; i < q; i++){
+            int x = in.nextInt();
+            if(x == 1){
+                int y = in.nextInt();
+                st1.push(y);
+            }
+            if(x==2){
+                if(st2.empty()){
+                    while(!st1.empty()){
+                        st2.push(st1.peek());
+                        st1.pop();
+                    }
+                }
+                st2.pop();
+            }
+            if(x==3){
+                if(st2.empty()){
+                    while(!st1.empty()){
+                        st2.push(st1.peek());
+                        st1.pop();
+                    }
+                }
+                System.out.println(st2.peek());
+            }
+        }
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+    }
+}

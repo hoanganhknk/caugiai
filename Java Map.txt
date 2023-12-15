@@ -1,0 +1,27 @@
+//Complete this code or write your own from scratch
+
+import java.util.*;
+import java.io.*;
+
+public class Solution {
+    public static void main(String[] argh) {
+        Scanner sc = new Scanner(System.in);
+        HashMap<String, Integer> hashmap = new HashMap<>();
+        int n = sc.nextInt();
+        sc.nextLine();
+        for (int i = 0; i < n; i++) {
+            String name = sc.nextLine();
+            int phone = sc.nextInt();
+            hashmap.put(name, phone);
+            sc.nextLine();
+        }
+        while (sc.hasNext()) {
+            String s = sc.nextLine();
+            if (hashmap.containsKey(s)) {
+                System.out.println(s + "=" + hashmap.get(s));
+            } else {
+                System.out.println("Not found");
+            }
+        }
+    }
+}
